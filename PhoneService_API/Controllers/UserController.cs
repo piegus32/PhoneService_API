@@ -120,6 +120,7 @@ namespace PhoneService_API.Controllers
             {
                 HttpOnly = true,
                 Expires = DateTime.UtcNow.AddHours(8),
+                Path = "/auth/refresh-token"
             };
             Response.Cookies.Append("refreshToken", token, cookieOptions);
         }
