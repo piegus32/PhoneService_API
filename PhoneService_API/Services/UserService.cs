@@ -1,17 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using PhoneService_API.Data;
-using PhoneService_API.Dtos;
 using PhoneService_API.Helpers;
 using PhoneService_API.Models;
 
@@ -19,12 +15,9 @@ namespace PhoneService_API.Services
 {
     public class UserService
     {
-
-        private const double ExpireHours = 1.0;
-
         private readonly AppSettings _appSettings;
-        private readonly IUserRepo _repository;
         private readonly AppDbContext _context;
+        private readonly IUserRepo _repository;
 
         public UserService(IOptions<AppSettings> appSettings, IUserRepo userRepo, AppDbContext context)
         {
@@ -49,7 +42,7 @@ namespace PhoneService_API.Services
                 return null;
 
             // authentication successful so generate jwt and refresh tokens
-            var jwtToken = this.CreateToken(user);
+            var jwtToken = CreateToken(user);
             var refreshToken = GenerateRefreshToken(ipAddress);
             user.RefreshTokens.Add(refreshToken);
             _repository.UpdateUser(user);
@@ -103,10 +96,10 @@ namespace PhoneService_API.Services
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-                    new Claim(ClaimTypes.Name, user.Username),
+                    new(ClaimTypes.Name, user.Username)
                 }),
 
-                Expires = DateTime.UtcNow.AddHours(ExpireHours),
+                Expires = DateTime.UtcNow.AddHours(1),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key),
                     SecurityAlgorithms.HmacSha256Signature)
             };
@@ -123,7 +116,7 @@ namespace PhoneService_API.Services
             return new RefreshToken
             {
                 Token = Convert.ToBase64String(randomBytes),
-                Expires = DateTime.UtcNow.AddDays(7),
+                Expires = DateTime.UtcNow.AddDays(3),
                 Created = DateTime.UtcNow,
                 CreatedByIp = ipAddress
             };
@@ -142,13 +135,12 @@ namespace PhoneService_API.Services
             if (!refreshToken.IsActive) return false;
 
             // revoke token and save
-            refreshToken.Revoked = DateTime.UtcNow;
+            refreshToken.Revoked = DateTime.UtcNow.AddHours(1);
             refreshToken.RevokedByIp = ipAddress;
             _context.Update(user);
             _context.SaveChanges();
 
             return true;
         }
-
     }
 }
