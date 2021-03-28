@@ -87,7 +87,7 @@ namespace PhoneService_API.Controllers
         }
 
         [HttpGet("isProtected")]
-        public ActionResult isProtected()
+        public ActionResult IsProtected()
         {
             return Ok();
         }
