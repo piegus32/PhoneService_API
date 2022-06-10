@@ -99,9 +99,9 @@ namespace PhoneService_API.Services
                     new(ClaimTypes.Name, user.Username)
                 }),
 
-                Expires = DateTime.UtcNow.AddHours(1),
+                Expires = DateTime.UtcNow.AddHours(3),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key),
-                    SecurityAlgorithms.HmacSha256Signature)
+                    SecurityAlgorithms.HmacSha512Signature)
             };
 
             var token = tokenHandler.CreateToken(descriptor);

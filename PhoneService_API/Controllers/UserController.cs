@@ -88,6 +88,7 @@ namespace PhoneService_API.Controllers
             return Ok();
         }
 
+        [AllowAnonymous]
         [HttpPost]
         [Route("register")]
         public ActionResult CreateUser([FromBody] UserReadDto model)
@@ -114,9 +115,12 @@ namespace PhoneService_API.Controllers
         {
             var cookieOptions = new CookieOptions
             {
-                HttpOnly = true,
+                HttpOnly = false,
                 Expires = DateTime.UtcNow.AddDays(3),
-                Path = "/auth/refresh-token"
+                Path = "/auth/refresh-token",
+                IsEssential = true,
+                Secure = true,
+                SameSite = SameSiteMode.None
             };
             Response.Cookies.Append("refreshToken", token, cookieOptions);
         }
