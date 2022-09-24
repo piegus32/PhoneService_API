@@ -1,14 +1,24 @@
-﻿{
+{
+  "PhoneService_API": {
+    "commandName": "Project",
+    "applicationUrl": "https://localhost:5001;http://localhost:5000",
+    "environmentVariables": {
+      "ASPNETCORE_ENVIRONMENT": "Development"
+    }
+  },
   "$schema": "http://json.schemastore.org/launchsettings.json",
   "iisSettings": {
     "windowsAuthentication": false,
     "anonymousAuthentication": true
   },
+  "profiles": {
     "PhoneService_API": {
-      "commandName": "Project",
-      "applicationUrl": "https://localhost:5001;http://localhost:5000",
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      }
+      "commandName": "Project"
+    },
+    "WSL": {
+      "commandName": "WSL2",
+      "environmentVariables": {},
+      "distributionName": ""
     }
   }
+}
