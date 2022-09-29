@@ -110,9 +110,7 @@ namespace PhoneService_API.Services
 
         private static RefreshToken GenerateRefreshToken(string ipAddress)
         {
-            using var rngCryptoServiceProvider = new RNGCryptoServiceProvider();
-            var randomBytes = new byte[64];
-            rngCryptoServiceProvider.GetBytes(randomBytes);
+            var randomBytes = RandomNumberGenerator.GetBytes(count: 64);
             return new RefreshToken
             {
                 Token = Convert.ToBase64String(randomBytes),
