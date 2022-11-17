@@ -13,7 +13,7 @@ Create appsettings.json with connectionString to Database and secret key for JWT
   },
   "AllowedHosts": "*",
   "AppSettings": {
-    "Secret": "Generate example secret key"
+    "Secret": "Generate secret key"
   },
   "ConnectionStrings": {
     "PostgresSql": "Host=127.0.0.1;Port=5432;Database=DATABASE;Username=Username;Password=****",
