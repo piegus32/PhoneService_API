@@ -44,11 +44,11 @@ namespace PhoneService_API
             var key = Encoding.ASCII.GetBytes(appSettings.Secret);
 
             services.AddDbContext<AppDbContext>(opt =>
-                opt.UseNpgsql(Configuration.GetConnectionString("PostgresSql")));
+                opt.UseSqlServer(Configuration.GetConnectionString("MSSQL")));
             services.AddAuthentication(CertificateAuthenticationDefaults.AuthenticationScheme).AddCertificate();
 
             //Set switch for datetime error; PostgreSQL type 'timestamp with time zone'
-            AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+           // AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
             services.AddControllers();
             services.AddAuthentication(x =>
